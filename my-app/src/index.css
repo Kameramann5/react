@@ -1,0 +1,106 @@
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+:root {
+  --background: white;
+  --text-primary: black;
+  --bgmodal: white;
+}
+[data-theme='dark'] {
+transition: 0.5s;
+--background: #202124;
+  --text-primary: rgb(0, 0, 0);
+  --text-secondary: grey;
+  --white: white;
+  --bgmodal: #202124;
+}
+.Todoli span {   flex: 1; margin-left: 10px;}
+.wrapper0 {     min-height: 1000px; transition:  0.5s;   background: var(--background);  }
+.wrapperbtn {
+  color: var(--text-primary);
+  background-color: var(--background);
+  font-size: large;
+  font-weight: bold;
+  padding: 20px;
+ 
+  transition: all .5s;
+}
+
+button {
+  color: var(--text-primary);
+  background-color: var(--background);
+  border: 2px var(--text-primary) solid;
+  float: right;
+  transition: all .5s;
+}
+h1 {clear: both;  color: var(--white);}
+h2 { color: var(--white);}
+p {  color: var(--white);  }
+input[type='checkbox']  {cursor: pointer;}
+label {  color: var(--white);  }
+span {  color: var(--white);  }
+
+
+.wrapper {padding-top: 5rem; width: 600px;margin: 0 auto;}
+.rm {background: red;    line-height: 19px; border-radius: 50%;color: white;border:none; cursor: pointer;}
+.rm:hover { background: gray; }
+.done {
+
+  background-color: #737373; transition: 0.5s;}
+  .done_p {text-decoration: line-through;}
+ .Todoli {transition: 0.5s;}
+ .Todoli  p {     display: inline-block;}
+/*preload*/
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid red;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+
+
+
+
+
+
+
+
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
+
+/*end preload*/
