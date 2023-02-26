@@ -1,0 +1,46 @@
+.plane {
+    padding: 50px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 80px;
+    place-items: center;
+    min-height: 80vh;
+}
+
+.title {
+    margin-top: 40px;
+}
+
+.buyBtnContainer {
+    
+}
+
+.desc {
+    line-height: 24px;
+    color: rgb(148, 163, 184);    margin: 17px 0;
+}
+
+.price {
+    margin: 30px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #2FB5FC;
+}
+
+.image {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 20px;
+}
+.planeFlex {display: flex;display: flex;
+    align-items: center;
+    justify-content: space-between;}
+.buyBtn {     background: #2FB5FC;
+    border: 2px solid white;
+    box-shadow: 0px 1px 3px rgb(0 0 0 / 10%);
+    border-radius: 20px;
+    color: white;    display: block;    margin: 20px 0px;
+    padding: 8px 12px;
+    font-weight: bold;}
+.buyBack {      margin-top: 88px;
+    display: block;}

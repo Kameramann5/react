@@ -1,0 +1,19 @@
+.order {
+    display: flex;
+    flex-direction: column;
+    min-height: 50vh;
+    justify-content: center;
+    align-items: center;
+}
+.order  h1 {text-align: center;font-size: 28px;}
+.button {
+    margin-top: 50px;
+}
+.buttonBackOrder {      background: #2FB5FC;
+    border: 2px solid white;
+    box-shadow: 0px 1px 3px rgb(0 0 0 / 10%);
+    border-radius: 20px;
+    color: white;
+    padding: 8px 12px;
+    font-weight: bold;margin-top:50px;display: block;
+    cursor: pointer;}

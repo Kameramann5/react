@@ -1,0 +1,35 @@
+.planesGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.sort {
+    height: 80px;
+    background-color:#442D85;
+    width: 100%;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.sortBtn {
+    font-size: 24px;
+}
+
+.createPlaneBtn {
+    background: #2FB5FC;
+    border: 2px solid white;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    color: white;
+    padding: 8px 12px;font-weight:bold;
+}
+
+.planesHeader {
+    justify-content: space-between;
+    align-items: center;
+}
+.sortBtnDiv {}
+

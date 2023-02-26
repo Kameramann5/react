@@ -1,0 +1,41 @@
+.createPlane {
+    display: flex;
+    flex-direction: column;
+    min-height: 50vh;
+    justify-content: center;
+    align-items: center;    margin-top: 10%;
+}
+
+.form {
+    background: rgba(50, 61, 109, 0.5);
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 50px 100px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(40px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 50vh;
+}
+
+.title {
+    font-size: 40px;    margin-bottom: 30px;
+}
+
+.buttonContainer {
+    padding: 20px 0;
+}
+
+.backButtonContainer {
+  
+}
+.addFlex { display: flex;    align-items: center;
+    justify-content: space-between;margin-top: 10px;}
+
+    .buttonAdd {     background: #2FB5FC;    margin-top: 10px;
+        display: block;
+        border: 2px solid white;
+        box-shadow: 0px 1px 3px rgb(0 0 0 / 10%);
+        border-radius: 20px;
+        color: white;
+        padding: 8px 12px;
+        font-weight: bold;cursor: pointer;}
+      

@@ -1,0 +1,6 @@
+перейти в папку проекта shop2 
+yarn dev
+
+(установка библиотек делается через package.json в команде npm install)
+
+planes.json - дамп базы данных mongoDB
