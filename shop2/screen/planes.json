@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "63fbdc94e6a45172f8d27d34"
+  },
+  "name": "concept car 1",
+  "price": 197325,
+  "description": "Концептуальное авто будущего, которое подарит вам море эмоций! Корпус изготовлен из карбоновых панелей",
+  "capacity": "11",
+  "planeImage": "http://localhost:8000/static/planeImage-1677450388316.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63fbdfcae6a45172f8d27d62"
+  },
+  "name": "concept car 2",
+  "price": 207325,
+  "description": "Концептуальное авто будущего, которое подарит вам море эмоций! Корпус изготовлен из карбоновых панелей",
+  "capacity": "22",
+  "planeImage": "http://localhost:8000/static/planeImage-1677451210191.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63fbe4b2e6a45172f8d27dbb"
+  },
+  "name": "concept car 3",
+  "price": 217325,
+  "description": "Концептуальное авто будущего, которое подарит вам море эмоций! Корпус изготовлен из карбоновых панелей",
+  "capacity": "5",
+  "planeImage": "http://localhost:8000/static/planeImage-1677452466273.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63fbe4c8e6a45172f8d27dc1"
+  },
+  "name": "concept car 4",
+  "price": 207325,
+  "description": "Концептуальное авто будущего, которое подарит вам море эмоций! Корпус изготовлен из карбоновых панелей",
+  "capacity": "1",
+  "planeImage": "http://localhost:8000/static/planeImage-1677452488138.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63fbe4f0e6a45172f8d27dc8"
+  },
+  "name": "concept car 5",
+  "price": 356622,
+  "description": "Концептуальное авто будущего, которое подарит вам море эмоций! Корпус изготовлен из карбоновых панелей",
+  "capacity": "10",
+  "planeImage": "http://localhost:8000/static/planeImage-1677452528018.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63fbe5800106845ac62a337f"
+  },
+  "name": "concept car 6",
+  "price": 358923,
+  "description": "Концептуальное авто будущего, которое подарит вам море эмоций! Корпус изготовлен из карбоновых панелей",
+  "capacity": "100",
+  "planeImage": "http://localhost:8000/static/planeImage-1677452672589.jpg",
+  "__v": 0
+}]
