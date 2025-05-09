@@ -1,9 +1,10 @@
 // FullInfo.jsx
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image,ScrollView  } from "react-native";
 import { gStyle } from "../styles/style";
 import EditForm from "./EditForm";
 import DeleteCurrentPost from "./DeleteCurrentPost";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function FullInfo({ route, navigation }) {
   const [editSuccess, setEditSuccess] = useState(false); // состояние для отслеживания редактирования
@@ -29,11 +30,16 @@ export default function FullInfo({ route, navigation }) {
   }, [route.params]);
 
   return (
-    <View style={gStyle.main}>
-      <Image style={styles.image} source={{ uri: route.params.img }} />
+    <ScrollView  contentContainerStyle={styles.page}   >
+    <View  style={gStyle.main}>    
+      {route.params.img ? (
+  <Image style={styles.image} source={{ uri: route.params.img }} />
+) : (
+  <Ionicons name="image-sharp" size={24} color="gray" />
+)}
       <Text style={[gStyle.title, styles.header]}>{route.params.name}</Text>
       <Text style={styles.full}>{route.params.full}</Text>
-      <DeleteCurrentPost deleteArticle={handleDelete} />
+    
 
       {/* Передаем статус редактирования и функцию для его обновления */}
       <EditForm
@@ -41,8 +47,10 @@ export default function FullInfo({ route, navigation }) {
         onSave={handleSave}
         editSuccess={editSuccess}
         setEditSuccess={setEditSuccess}
-      />
-    </View>
+      /> 
+        <DeleteCurrentPost deleteArticle={handleDelete} />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -61,5 +69,8 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: "100%",
+  },
+  page: {
+    paddingBottom: 20,
   },
 });
