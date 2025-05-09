@@ -7,6 +7,8 @@ my-app Список дел
 quiz Квиз, список вопросов
 shop Магазин охлаждения пк
 shop2 Салон авто будущего
-blog React Native, список дел
-news-api React Native, список новостей из api
+
+React Native
+blog список дел
+news-api список новостей из api
 ```
