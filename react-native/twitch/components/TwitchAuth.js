@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, Linking, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../api';
 
 
 const CLIENT_ID = 'ciicbxp57ut6cvt2lh4s9b817v8bzt'; // ваш client_id
@@ -123,13 +122,14 @@ export default function TwitchLogin() {
   return (
     <View style={styles.container}>
       {loggedIn ? (
-        <>
+        <View>
           <Text style={styles.welcome}>Привет, {username}!</Text>
-          {/* Кнопка для выхода */}
           <Button title="Выйти" onPress={handleReturn} />
-        </>
+        </View>
       ) : (
-        <View>      <Text>Логин пользователя: {username}</Text>
+        <View>    
+          <Text>Логин пользователя: {username}
+          </Text>
 
         <Button title="Войти через Twitch" onPress={handleLogin} /> </View>
       )}

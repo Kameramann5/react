@@ -10,7 +10,6 @@ import { createNativeStackNavigator  } from '@react-navigation/native-stack';
 
 // Импортируйте ваши компоненты
 import Games from './components/Games';
-import Header from './components/Header';
 import Stream from './components/Streams';
 import GameStreams from './components/GameStreams';
 import StreamerLive from './components/StreamerLive';
@@ -22,8 +21,6 @@ const Stack = createNativeStackNavigator();
 
 export default function MainStack() {
   return ( 
-
-    
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Games">
       <Stack.Screen name="TwitchAuth" component={TwitchAuth} options={{ title: 'TwitchAuth' }}  />

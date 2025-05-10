@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native'; // для навига
 import api from '../api'; // убедитесь, что api настроен для fetch или axios
 import Header from './Header';
 
-
 const Games = () => {
   const [games, setGames] = useState([]);
   const navigation = useNavigation();
@@ -12,7 +11,6 @@ const Games = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
         const result = await api.get('https://api.twitch.tv/helix/games/top?&first=100');
         // result.data.data предполагается структура, как в вебе
         const dataArray = result.data.data;
