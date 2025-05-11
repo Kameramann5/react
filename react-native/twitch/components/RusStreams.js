@@ -23,13 +23,13 @@ function RusStreams({ route, navigation }) {
     const fetchData = async () => {
       try {
         const result = await api.get(
-          `https://api.twitch.tv/helix/streams?game_id=${gameID}&first=100`
+          `https://api.twitch.tv/helix/streams?game_id=${gameID}&first=100&language=ru`
         );
         let dataArray = result.data.data;
 
-        const rusStreams = dataArray.filter(stream => stream.language === 'ru');
-        console.log(rusStreams);
-        let finalArray = rusStreams.map((stream) => {
+   
+      
+        let finalArray = dataArray.map((stream) => {
           let newURL = stream.thumbnail_url
             .replace('{width}', '400')
             .replace('{height}', '200');

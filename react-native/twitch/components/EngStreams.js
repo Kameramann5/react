@@ -23,13 +23,13 @@ function EngStreams({ route, navigation }) {
     const fetchData = async () => {
       try {
         const result = await api.get(
-          `https://api.twitch.tv/helix/streams?game_id=${gameID}&first=100`
+          `https://api.twitch.tv/helix/streams?game_id=${gameID}&first=100&language=en`
         );
         let dataArray = result.data.data;
 
       
-        const englishStreams = dataArray.filter(stream => stream.language === 'en');
-        let finalArray = englishStreams.map((stream) => {
+    
+        let finalArray = dataArray.map((stream) => {
           let newURL = stream.thumbnail_url
             .replace('{width}', '400')
             .replace('{height}', '200');
