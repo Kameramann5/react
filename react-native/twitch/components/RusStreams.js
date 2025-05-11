@@ -27,8 +27,9 @@ function RusStreams({ route, navigation }) {
         );
         let dataArray = result.data.data;
 
-        const englishStreams = dataArray.filter(stream => stream.language === 'ru');
-        let finalArray = englishStreams.map((stream) => {
+        const rusStreams = dataArray.filter(stream => stream.language === 'ru');
+        console.log(rusStreams);
+        let finalArray = rusStreams.map((stream) => {
           let newURL = stream.thumbnail_url
             .replace('{width}', '400')
             .replace('{height}', '200');

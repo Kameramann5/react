@@ -2,6 +2,7 @@
   "expo": {
     "name": "twitch",
     "slug": "twitch",
+    "scheme": "twitch",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
