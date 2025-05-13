@@ -7,7 +7,14 @@ function Header() {
 
   return (
     <View style={styles.navbar}>
-   
+
+        <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.navigate('StreamerSearch')}
+      >
+        <Text style={styles.linkText}>Поиск</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.navItem}
         onPress={() => navigation.navigate('TopStreams')}

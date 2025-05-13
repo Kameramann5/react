@@ -9,7 +9,8 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-
+import StreamCard from './StreamCard';
+import { gStyle } from '../styles/style';
 import api from '../api';
 
 function EngStreams({ route, navigation }) {
@@ -17,7 +18,7 @@ function EngStreams({ route, navigation }) {
   const [streamData, setStreamData] = useState([]);
   const [streamersCount, setStreamersCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +86,7 @@ function EngStreams({ route, navigation }) {
         <Text style={styles.viewers}>{item.viewer_count} зрителей</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('StreamerLive', { userName: item.user_name })}
+          onPress={() => navigation.navigate('StreamerLive', { userName: item.user_login })}
         >
           <Text style={styles.buttonText}>{item.user_name}</Text>
         </TouchableOpacity>
@@ -96,52 +97,57 @@ function EngStreams({ route, navigation }) {
   const totalViewersCount = streamData.reduce((sum, stream) => sum + stream.viewer_count, 0);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Убраны блоки с выбором языка */}
+    <ScrollView contentContainerStyle={gStyle.container}>
+    <Text style={styles.subHeader}>
+      <Text style={styles.bold}>{totalViewersCount}</Text> зрителей смотрят
+    </Text>
+    <Text style={styles.subHeader}>
+      <Text style={styles.bold}>{streamersCount}</Text> стримеров загружено
+    </Text>
 
-      <Text style={styles.subHeader}>
-        <Text style={styles.bold}>{totalViewersCount}</Text> зрителей смотрят
+    <FlatList
+      nestedScrollEnabled={true}
+      scrollEnabled={false}
+      data={paginatedData()}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <StreamCard
+          item={item}
+          onPressStreamer={() =>
+            navigation.navigate('StreamerLive', { userName: item.user_login })
+          }
+        />
+      )}
+      numColumns={2}
+      contentContainerStyle={styles.list}
+      columnWrapperStyle={styles.row}
+    />
+
+    <View style={styles.paginationContainer}>
+      <TouchableOpacity
+        style={[styles.pageButton, currentPage === 1 && styles.disabledButton]}
+        onPress={handlePrevPage}
+        disabled={currentPage === 1}
+      >
+        <Text style={styles.pageButtonText}>Предыдущая</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.pageInfo}>
+        {currentPage} / {totalPages}
       </Text>
-      <Text style={styles.subHeader}>
-        <Text style={styles.bold}>{streamersCount}</Text> стримеров загружено
-      </Text>
 
-      {/* Отображаем текущие 3 стримера */}
-      <FlatList
-        data={paginatedData()}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        numColumns={2}
-        contentContainerStyle={styles.list}
-        columnWrapperStyle={styles.row}
-      />
-
-      {/* Панель навигации по страницам */}
-      <View style={styles.paginationContainer}>
-        <TouchableOpacity
-          style={[styles.pageButton, currentPage === 1 && styles.disabledButton]}
-          onPress={handlePrevPage}
-          disabled={currentPage === 1}
-        >
-          <Text style={styles.pageButtonText}>Предыдущая</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.pageInfo}>
-          {currentPage} / {totalPages}
-        </Text>
-
-        <TouchableOpacity
-          style={[
-            styles.pageButton,
-            currentPage === totalPages && styles.disabledButton,
-          ]}
-          onPress={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          <Text style={styles.pageButtonText}>Следующая</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      <TouchableOpacity
+        style={[
+          styles.pageButton,
+          currentPage === totalPages && styles.disabledButton,
+        ]}
+        onPress={handleNextPage}
+        disabled={currentPage === totalPages}
+      >
+        <Text style={styles.pageButtonText}>Следующая</Text>
+      </TouchableOpacity>
+    </View>
+  </ScrollView>
   );
 }
 
@@ -150,9 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
-  container: {
-    padding: 16,
-  },
+
   subHeader: {
     fontSize: 16,
     marginBottom: 16,

@@ -3,21 +3,22 @@ import {
   View,
   Text,
   FlatList,
-  Image,
-  TouchableOpacity,
-  Linking,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
+  TouchableOpacity
 } from 'react-native';
 
 import api from '../api';
+import StreamCard from './StreamCard'; // импортируем новый компонент
+import { gStyle } from '../styles/style';
+
 
 function RusStreams({ route, navigation }) {
-  const { gameID, gameName } = route.params; // Передайте параметры при навигации
+  const { gameID, gameName } = route.params;
   const [streamData, setStreamData] = useState([]);
   const [streamersCount, setStreamersCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,8 +28,6 @@ function RusStreams({ route, navigation }) {
         );
         let dataArray = result.data.data;
 
-   
-      
         let finalArray = dataArray.map((stream) => {
           let newURL = stream.thumbnail_url
             .replace('{width}', '400')
@@ -36,12 +35,10 @@ function RusStreams({ route, navigation }) {
           return { ...stream, thumbnail_url: newURL, description: stream.title };
         });
 
-        // Подсчет уникальных стримеров
         const uniqueStreamers = new Set(finalArray.map((stream) => stream.user_name));
         setStreamersCount(uniqueStreamers.size);
-
         setStreamData(finalArray);
-        setCurrentPage(1); // сброс к первой странице при новом обновлении данных
+        setCurrentPage(1);
       } catch (error) {
         console.error('Error fetching streams:', error);
       }
@@ -49,7 +46,6 @@ function RusStreams({ route, navigation }) {
     fetchData();
   }, [gameID]);
 
-  // Расчет данных для текущей страницы
   const paginatedData = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -70,35 +66,10 @@ function RusStreams({ route, navigation }) {
     }
   };
 
-  const truncateDescription = (description, maxLength = 34) => {
-    if (description.length <= maxLength) {
-      return description;
-    }
-    return description.substring(0, maxLength) + '...';
-  };
-
-  const renderItem = ({ item }) => (
-    <View style={styles.cardContainer}>
-      <Image source={{ uri: item.thumbnail_url }} style={styles.thumbnail} />
-      <View style={styles.cardContent}>
-        <Text style={styles.description}>{truncateDescription(item.description)}</Text>
-        <Text style={styles.viewers}>{item.viewer_count} зрителей</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('StreamerLive', { userName: item.user_name })}
-        >
-          <Text style={styles.buttonText}>{item.user_name}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-
   const totalViewersCount = streamData.reduce((sum, stream) => sum + stream.viewer_count, 0);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Убраны блоки с выбором языка */}
-
+    <ScrollView contentContainerStyle={gStyle.container}>
       <Text style={styles.subHeader}>
         <Text style={styles.bold}>{totalViewersCount}</Text> зрителей смотрят
       </Text>
@@ -106,17 +77,24 @@ function RusStreams({ route, navigation }) {
         <Text style={styles.bold}>{streamersCount}</Text> стримеров загружено
       </Text>
 
-      {/* Отображаем текущие 3 стримера */}
       <FlatList
+        nestedScrollEnabled={true}
+        scrollEnabled={false}
         data={paginatedData()}
         keyExtractor={(item) => item.id}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <StreamCard
+            item={item}
+            onPressStreamer={() =>
+              navigation.navigate('StreamerLive', { userName: item.user_login })
+            }
+          />
+        )}
         numColumns={2}
         contentContainerStyle={styles.list}
         columnWrapperStyle={styles.row}
       />
 
-      {/* Панель навигации по страницам */}
       <View style={styles.paginationContainer}>
         <TouchableOpacity
           style={[styles.pageButton, currentPage === 1 && styles.disabledButton]}
@@ -150,9 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
-  container: {
-    padding: 16,
-  },
+
   subHeader: {
     fontSize: 16,
     marginBottom: 16,
@@ -164,41 +140,6 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingBottom: 20,
-  },
-  cardContainer: {
-    flex: 1,
-    margin: 5,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    overflow: 'hidden',
-    maxWidth: '48%',
-  },
-  thumbnail: {
-    width: '100%',
-    height: 150,
-  },
-  cardContent: {
-    padding: 10,
-  },
-  description: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  viewers: {
-    fontSize: 14,
-    marginBottom: 8,
-    color: 'gray',
-  },
-  button: {
-    backgroundColor: '#8c3fff',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 4,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14,
   },
   paginationContainer: {
     flexDirection: 'row',

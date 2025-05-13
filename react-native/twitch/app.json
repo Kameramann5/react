@@ -4,7 +4,7 @@
     "slug": "twitch",
     "scheme": "twitch",
     "version": "1.0.0",
-    "orientation": "default",
+   
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -12,6 +12,14 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "plugins": [
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ]
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -36,5 +44,6 @@
         "projectId": "daaa1929-b557-4ce8-b358-068a6beb76cf"
       }
     }
+    
   }
 }
