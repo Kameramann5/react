@@ -47,6 +47,7 @@ const homeName = "Категории";
 const TopStreamName = "Топ";
 const StreamerSearchName = "Поиск";
 const LoveStreamersName = "Любимые";
+const TwitchAuthName = "Вход";
 
 export default function Main() {
   return (
@@ -64,6 +65,9 @@ export default function Main() {
               iconName = focused ? 'search' : 'search-outline';
             } else if (route.name === LoveStreamersName) {
               iconName = focused ? 'heart' : 'heart-outline';
+            }
+            else if (route.name === TwitchAuthName) {
+              iconName = focused ? 'log-in' : 'log-in-outline';
             }
             return <Ionicons name={iconName} size={20} color={color} style={{ marginTop: 1 }} />;
           },
@@ -91,6 +95,11 @@ export default function Main() {
         <Tab.Screen
           name={StreamerSearchName}
           component={StreamerSearch}
+          options={{ headerShown: false }}
+        />
+            <Tab.Screen
+          name={TwitchAuthName}
+          component={TwitchAuth}
           options={{ headerShown: false }}
         />
       </Tab.Navigator>

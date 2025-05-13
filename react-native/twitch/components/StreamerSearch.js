@@ -27,6 +27,9 @@ const StreamerSearch = ({ route, navigation }) => {
   const [streamerList, setStreamerList] = useState([]); // список добавленных стримеров
   const [isStreamerAdded, setIsStreamerAdded] = useState(false); // флаг, добавлен ли стример
 
+
+
+
   // Загружаем список добавленных стримеров при монтировании и при изменениях
   useEffect(() => {
     loadStreamerList();
@@ -51,7 +54,15 @@ const StreamerSearch = ({ route, navigation }) => {
       setIsStreamerAdded(false);
     }
   }, [streamerData, streamerList]);
-
+  
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadStreamerList();
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
 
 
   const handleAddStreamer = async () => {
