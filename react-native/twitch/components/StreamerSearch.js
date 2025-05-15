@@ -296,21 +296,21 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 90,
     height: 90,
-    borderRadius: 45,
+    borderRadius: 45, shadowColor: '#8c3fff',
+    shadowOpacity: 0.1,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
   profileImagebutton: {
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 45,
-    backgroundColor: "#8c3fff",
-    shadowColor: "black",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.9,
-    shadowRadius: 30.0,
-    elevation: 10,
+    shadowColor: '#8c3fff',
+    shadowOpacity: 0.1,
+    shadowRadius: 0,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 20,
   },
 });
 

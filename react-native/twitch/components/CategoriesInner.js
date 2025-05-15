@@ -5,11 +5,10 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Linking,
   StyleSheet,
-  ScrollView,
 } from 'react-native';
 import StreamCard from './StreamCard';
+import Pagination from './Pagination'; 
 import { gStyle } from '../styles/style';
 
 import api from '../api';
@@ -51,7 +50,7 @@ function GameStreams({ route, navigation }) {
           let newURL = stream.thumbnail_url
             .replace('{width}', '400')
             .replace('{height}', '200');
-          return { ...stream, thumbnail_url: newURL, description: stream.title, };
+          return { ...stream, thumbnail_url: newURL, description: stream.title };
         });
 
         // Подсчет уникальных стримеров
@@ -87,6 +86,7 @@ function GameStreams({ route, navigation }) {
       setCurrentPage(currentPage - 1);
     }
   };
+
   const truncateDescription = (description, maxLength = 34) => {
     if (description.length <= maxLength) {
       return description;
@@ -94,117 +94,72 @@ function GameStreams({ route, navigation }) {
     return description.substring(0, maxLength) + '...';
   };
 
-
-  const renderItem = ({ item }) => (
-    <View style={styles.cardContainer}>
-      <Image source={{ uri: item.thumbnail_url }} style={styles.thumbnail} />
-      <View style={styles.cardContent}>
-      <Text style={styles.description}>{truncateDescription(item.description)}</Text>
-
-
-        <Text style={styles.viewers}>{item.viewer_count} зрителей</Text>
-      
-
-        <TouchableOpacity
-  style={styles.button}
-  onPress={() => navigation.navigate('StreamerLive', { userName: item.user_login })}
->  
-<Text style={styles.buttonText}>{item.user_name }</Text>
-</TouchableOpacity>
-
-
-
-
-      </View>
-    </View>
-  );
-  const totalViewersCount = streamData.reduce((sum, stream) => sum + stream.viewer_count, 0);
-
   return (
-    <ScrollView contentContainerStyle={gStyle.container}>
-         <View style={styles.languageButtonsContainer}>
+    <View style={gStyle.container}>
+      {/* Кнопки языков */}
+      <View style={styles.languageButtonsContainer}>
         {languages.map((lang) => (
           <TouchableOpacity
-  key={lang.value}
-  style={[
-    styles.languageButton,
-    languageFilter === lang.value && styles.languageButtonActive,
-  ]}
-  onPress={() => {
-    if (lang.value === 'ru') {
-      // перейти на отдельный экран
-      navigation.navigate('Russian', { gameID: gameID  });
-    }
-    else if (lang.value === 'en') {
-      // перейти на отдельный экран
-      navigation.navigate('English', { gameID: gameID  });
-    }
-     else {
-      setLanguageFilter(lang.value);
-    }
-  }}
->
-  <Text
-    style={[
-      styles.languageButtonText,
-      languageFilter === lang.value && styles.languageButtonTextActive,
-    ]}
-  >
-    {lang.label}
-  </Text>
-</TouchableOpacity>
+            key={lang.value}
+            style={[
+              styles.languageButton,
+              languageFilter === lang.value && styles.languageButtonActive,
+            ]}
+            onPress={() => {
+              if (lang.value === 'ru') {
+                navigation.navigate('Russian', { gameID });
+              } else if (lang.value === 'en') {
+                navigation.navigate('English', { gameID });
+              } else {
+                setLanguageFilter(lang.value);
+              }
+            }}
+          >
+            <Text
+              style={[
+                styles.languageButtonText,
+                languageFilter === lang.value && styles.languageButtonTextActive,
+              ]}
+            >
+              {lang.label}
+            </Text>
+          </TouchableOpacity>
         ))}
       </View>
-    <Text style={styles.subHeader}>
-      <Text style={styles.bold}>{totalViewersCount}</Text> зрителей смотрят
-    </Text>
-    <Text style={styles.subHeader}>
-      <Text style={styles.bold}>{streamersCount}</Text> стримеров загружено
-    </Text>
 
-    <FlatList
-      nestedScrollEnabled={true}
-      scrollEnabled={false}
-      data={paginatedData()}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <StreamCard
-          item={item}
-          onPressStreamer={() =>
-            navigation.navigate('StreamerLive', { userName: item.user_login })
-          }
-        />
-      )}
-      numColumns={2}
-      contentContainerStyle={styles.list}
-      columnWrapperStyle={styles.row}
-    />
-
-    <View style={styles.paginationContainer}>
-      <TouchableOpacity
-        style={[styles.pageButton, currentPage === 1 && styles.disabledButton]}
-        onPress={handlePrevPage}
-        disabled={currentPage === 1}
-      >
-        <Text style={styles.pageButtonText}>Предыдущая</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.pageInfo}>
-        {currentPage} / {totalPages}
+      <Text style={styles.subHeader}>
+        <Text style={styles.bold}>{streamData.reduce((sum, stream) => sum + stream.viewer_count, 0)}</Text> зрителей смотрят
+      </Text>
+      <Text style={styles.subHeader}>
+        <Text style={styles.bold}>{streamersCount}</Text> стримеров загружено
       </Text>
 
-      <TouchableOpacity
-        style={[
-          styles.pageButton,
-          currentPage === totalPages && styles.disabledButton,
-        ]}
-        onPress={handleNextPage}
-        disabled={currentPage === totalPages}
-      >
-        <Text style={styles.pageButtonText}>Следующая</Text>
-      </TouchableOpacity>
+     
+      <FlatList
+        nestedScrollEnabled={true}
+        data={paginatedData()}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <StreamCard
+            item={item}
+            onPressStreamer={() =>
+              navigation.navigate('StreamerLive', { userName: item.user_login })
+            }
+          />
+        )}
+        numColumns={2}
+        contentContainerStyle={styles.list}
+        columnWrapperStyle={styles.row}
+      />
+
+      
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onNext={handleNextPage}
+        onPrev={handlePrevPage}
+      />
     </View>
-  </ScrollView>
   );
 }
 
@@ -274,6 +229,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     flexWrap: 'wrap',
     justifyContent: 'center',
+    marginTop:10,
   },
   languageButton: {
     paddingVertical: 6,

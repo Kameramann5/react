@@ -5,20 +5,23 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Linking,
   StyleSheet,
-  ScrollView,
 } from 'react-native';
 import StreamCard from './StreamCard';
+import Pagination from './Pagination'; 
 import { gStyle } from '../styles/style';
+
 import api from '../api';
 
 function EngStreams({ route, navigation }) {
-  const { gameID, gameName } = route.params; // Передайте параметры при навигации
+  const { gameID, gameName } = route.params || {}; // Передайте параметры при навигации
   const [streamData, setStreamData] = useState([]);
   const [streamersCount, setStreamersCount] = useState(0);
+  const [languageFilter, setLanguageFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +31,8 @@ function EngStreams({ route, navigation }) {
         );
         let dataArray = result.data.data;
 
-      
     
+
         let finalArray = dataArray.map((stream) => {
           let newURL = stream.thumbnail_url
             .replace('{width}', '400')
@@ -48,7 +51,7 @@ function EngStreams({ route, navigation }) {
       }
     };
     fetchData();
-  }, [gameID]);
+  }, [gameID, languageFilter]);
 
   // Расчет данных для текущей страницы
   const paginatedData = () => {
@@ -78,85 +81,59 @@ function EngStreams({ route, navigation }) {
     return description.substring(0, maxLength) + '...';
   };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.cardContainer}>
-      <Image source={{ uri: item.thumbnail_url }} style={styles.thumbnail} />
-      <View style={styles.cardContent}>
-        <Text style={styles.description}>{truncateDescription(item.description)}</Text>
-        <Text style={styles.viewers}>{item.viewer_count} зрителей</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('StreamerLive', { userName: item.user_login })}
-        >
-          <Text style={styles.buttonText}>{item.user_name}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-
-  const totalViewersCount = streamData.reduce((sum, stream) => sum + stream.viewer_count, 0);
-
   return (
-    <ScrollView contentContainerStyle={gStyle.container}>
-    <Text style={styles.subHeader}>
-      <Text style={styles.bold}>{totalViewersCount}</Text> зрителей смотрят
-    </Text>
-    <Text style={styles.subHeader}>
-      <Text style={styles.bold}>{streamersCount}</Text> стримеров загружено
-    </Text>
+    <View style={gStyle.container}>
+     
+    
 
-    <FlatList
-      nestedScrollEnabled={true}
-      scrollEnabled={false}
-      data={paginatedData()}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <StreamCard
-          item={item}
-          onPressStreamer={() =>
-            navigation.navigate('StreamerLive', { userName: item.user_login })
-          }
-        />
-      )}
-      numColumns={2}
-      contentContainerStyle={styles.list}
-      columnWrapperStyle={styles.row}
-    />
-
-    <View style={styles.paginationContainer}>
-      <TouchableOpacity
-        style={[styles.pageButton, currentPage === 1 && styles.disabledButton]}
-        onPress={handlePrevPage}
-        disabled={currentPage === 1}
-      >
-        <Text style={styles.pageButtonText}>Предыдущая</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.pageInfo}>
-        {currentPage} / {totalPages}
+      <Text style={styles.subHeader}>
+        <Text style={styles.bold}>{streamData.reduce((sum, stream) => sum + stream.viewer_count, 0)}</Text> зрителей смотрят
+      </Text>
+      <Text style={styles.subHeader}>
+        <Text style={styles.bold}>{streamersCount}</Text> стримеров загружено
       </Text>
 
-      <TouchableOpacity
-        style={[
-          styles.pageButton,
-          currentPage === totalPages && styles.disabledButton,
-        ]}
-        onPress={handleNextPage}
-        disabled={currentPage === totalPages}
-      >
-        <Text style={styles.pageButtonText}>Следующая</Text>
-      </TouchableOpacity>
+     
+      <FlatList
+        nestedScrollEnabled={true}
+        data={paginatedData()}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <StreamCard
+            item={item}
+            onPressStreamer={() =>
+              navigation.navigate('StreamerLive', { userName: item.user_login })
+            }
+          />
+        )}
+        numColumns={2}
+        contentContainerStyle={styles.list}
+        columnWrapperStyle={styles.row}
+      />
+
+      
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onNext={handleNextPage}
+        onPrev={handlePrevPage}
+      />
     </View>
-  </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   row: {
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 10, // небольшой отступ между строками
   },
 
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
   subHeader: {
     fontSize: 16,
     marginBottom: 16,
@@ -175,6 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     overflow: 'hidden',
+    // чтобы карточки занимали примерно половину ширины
     maxWidth: '48%',
   },
   thumbnail: {
@@ -184,14 +162,15 @@ const styles = StyleSheet.create({
   cardContent: {
     padding: 10,
   },
-  description: {
-    fontSize: 14,
-    marginBottom: 8,
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 4,
   },
   viewers: {
     fontSize: 14,
     marginBottom: 8,
-    color: 'gray',
+    color:'gray',
   },
   button: {
     backgroundColor: '#8c3fff',
@@ -204,15 +183,41 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
   },
+  languageButtonsContainer: {
+    flexDirection: 'row',
+    marginBottom: 16,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop:10,
+  },
+  languageButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    marginHorizontal: 4,
+    marginVertical: 2,
+    borderRadius: 20,
+    backgroundColor: '#e0e0e0',
+  },
+  languageButtonActive: {
+    backgroundColor: '#8c3fff',
+  },
+  languageButtonText: {
+    color: '#000',
+  },
+  languageButtonTextActive: {
+    color: '#fff',
+  },
   paginationContainer: {
     flexDirection: 'row',
     marginBottom: 16,
+    flexWrap: 'wrap',
     justifyContent: 'center',
-    alignItems: 'center',
     marginTop: 20,
+alignContent:'center'
   },
-  pageButton: {
+  pageButton: { 
     padding: 8,
+   
     backgroundColor: '#8c3fff',
     borderRadius: 4,
     marginHorizontal: 10,
@@ -224,8 +229,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
   },
-  pageInfo: {
-    padding: 8,
+  pageInfo: {  padding: 8,
     fontSize: 16,
   },
 });

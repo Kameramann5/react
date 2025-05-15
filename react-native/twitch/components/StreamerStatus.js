@@ -50,7 +50,7 @@ const StreamerStatus = ({ userName }) => {
           style={[
             styles.avatar,
             {
-              borderColor: isStreaming ? 'green' : 'red', // меняем цвет обводки
+              borderColor: isStreaming ? '#7bff7b' : 'black', // меняем цвет обводки
               borderWidth: 3, // толщина обводки
             },
           ]}

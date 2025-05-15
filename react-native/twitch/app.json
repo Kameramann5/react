@@ -4,7 +4,6 @@
     "slug": "twitch",
     "scheme": "twitch",
     "version": "1.0.0",
-   
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -27,7 +26,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kameramann.twitch",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -44,6 +47,5 @@
         "projectId": "daaa1929-b557-4ce8-b358-068a6beb76cf"
       }
     }
-    
   }
 }
