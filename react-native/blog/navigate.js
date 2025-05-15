@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Main from "./components/Main";
-import FullInfo from "./components/FullInfo";
+import FullTask from "./components/FullITask";
+
 import {
   createStaticNavigation,
   useNavigation,
@@ -19,13 +20,13 @@ export default function MainStack() {
           component={Main}
           options={{
             title: "Главная",
-            headerStyle: { backgroundColor: "orange", height: 100 },
-            headerTitleStyle: { fontWeight: "400" },
+            headerStyle: { backgroundColor: "blue", height: 50 },
+            headerTitleStyle: { fontWeight: "400",color:"white" },
           }}
         />
         <Stack.Screen
-          name="FullInfo"
-          component={FullInfo}
+          name="FullTask"
+          component={FullTask}
           options={({ route }) => ({ title: route.params.name })}
         />
       </Stack.Navigator>
