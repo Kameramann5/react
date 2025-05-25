@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '@react-native-vector-icons/ionicons';
 
 
 export default function DeleteCurrentPost({  deleteArticle }) {
@@ -39,7 +39,7 @@ export default function DeleteCurrentPost({  deleteArticle }) {
         activeOpacity={0.7}
       >
         <Text style={styles.text}>Удалить</Text>
-        <Ionicons
+        <Icon
           name="close-circle"
           size={20}
           color="white"

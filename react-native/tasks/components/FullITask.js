@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image,ScrollView  } from "react-native";
 import { gStyle } from "../styles/style";
 import EditForm from "./EditForm";
 import DeleteCurrentPost from "./DeleteCurrentPost";
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '@react-native-vector-icons/ionicons';
 
 export default function FullTask({ route, navigation }) {
   const [editSuccess, setEditSuccess] = useState(false); // состояние для отслеживания редактирования
@@ -38,7 +38,7 @@ export default function FullTask({ route, navigation }) {
         
   <Image style={styles.image} source={{ uri: route.params.img }} />
 ) : (
-  <Ionicons name="image-sharp" size={24} color="gray" />
+  <Icon name="image-sharp" size={24} color="gray" />
 )}
       <Text style={[gStyle.title, styles.header]}>{route.params.name}</Text>
       <Text style={styles.full}>{route.params.full}</Text>

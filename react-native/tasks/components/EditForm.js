@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Button, StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
-import { FontAwesome } from '@expo/vector-icons'; // Для иконки плюса, установите через npm install @expo/vector-icons
-import * as ImagePicker from 'expo-image-picker';
-import * as Yup from 'yup'; 
 
+
+import * as Yup from 'yup'; 
+import {launchImageLibrary} from 'react-native-image-picker';
 export default function EditForm({ article, onSave, editSuccess, setEditSuccess, navigation }) {
   const [localImage, setLocalImage] = useState(article.img || null);
   const [checkboxes, setCheckboxes] = useState([]);
@@ -52,26 +52,29 @@ const validationSchema = Yup.object().shape({
     )));
   };
 
-  const pickImage = async (setFieldValue) => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Разрешение на доступ к галерее отклонено");
-      return;
-    }
- 
-    
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const uri = result.assets[0].uri;
-      if (uri) {
-        setLocalImage(uri);
-        setFieldValue('img', uri);
+  const openImagePicker = (setFieldValue) => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+  
+    launchImageLibrary(options, (response) => {
+      
+      if (response.didCancel) {
+        console.log('User  cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('Image picker error: ', response.errorMessage);
+      } else {
+        const uri = response.assets?.[0]?.uri; // Обратите внимание на эту строку
+        if (uri) {
+          setLocalImage(uri);
+          setFieldValue('img', uri);
+        }
       }
-    }
+    });
+    
   };
 
   return (
@@ -174,7 +177,7 @@ const validationSchema = Yup.object().shape({
             {/* Фото */}
             <TouchableOpacity
               style={[styles.imgSelect, { marginTop: 0 }]}
-              onPress={() => pickImage(setFieldValue)}
+              onPress={() => openImagePicker(setFieldValue)}
             >
               <Text style={styles.imgSelect}>Выбрать изображение</Text>
             </TouchableOpacity>

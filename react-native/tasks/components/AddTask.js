@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import * as ImagePicker from 'expo-image-picker'; // Импортируем image-picker
+import {launchImageLibrary} from 'react-native-image-picker';
 import { Formik } from "formik";
 import * as Yup from 'yup'; // Импортируем Yup для валидации
 
@@ -60,27 +60,36 @@ export default function AddTask({ AddArticle }) {
     ]);
   };
 
-  const pickImage = async (setFieldValue) => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (!permissionResult.granted) {
-      alert("Разрешение на доступ к галерее отклонено");
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const uri = result.assets[0].uri;
-      if (uri) {
-        setLocalImage(uri);
-        setFieldValue('img', uri);
+  const openImagePicker = (setFieldValue) => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+  
+    launchImageLibrary(options, (response) => {
+      
+      if (response.didCancel) {
+        console.log('User  cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('Image picker error: ', response.errorMessage);
+      } else {
+        const uri = response.assets?.[0]?.uri; // Обратите внимание на эту строку
+        if (uri) {
+          setLocalImage(uri);
+          setFieldValue('img', uri);
+        }
       }
-    }
+    });
+    
   };
+
+
+
+
+
 
   return (
     <View>
@@ -173,7 +182,7 @@ export default function AddTask({ AddArticle }) {
                 <>
                   <TouchableOpacity
                     style={styles.imageButton}
-                    onPress={() => pickImage(props.setFieldValue)}
+                    onPress={() => openImagePicker(props.setFieldValue)}
                   >
                     <Text style={styles.imageButtonText}>Выбрать изображение</Text>
                   </TouchableOpacity>

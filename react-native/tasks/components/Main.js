@@ -1,4 +1,3 @@
-// В начале файла
 import React, { useState, useEffect } from "react";
 import {
   Modal,
@@ -10,7 +9,9 @@ import {
 } from "react-native";
 import { gStyle } from "../styles/style";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from '@react-native-vector-icons/ionicons';
+
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import SearchBar from "./SearchBar";
@@ -108,8 +109,8 @@ export default function Main() {
         activeOpacity={0.7}
       >
         <Text style={[gStyle.title, styles.header]}>Список задач ({news.length})</Text>
-        <Ionicons
-          name="add-circle"
+        <Icon
+        name="add-circle"
           size={40}
           color="blue"
           style={styles.IoniconsAdd}

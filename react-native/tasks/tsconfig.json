@@ -1,0 +1,9 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false, // или true, если хотите проверку JS
+    // остальные настройки
+  },
+  "include": ["src/**/*"]
+}

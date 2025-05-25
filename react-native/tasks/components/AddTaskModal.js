@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, View, Text, StyleSheet,ScrollView } from 'react-native';
 import AddTask from './AddTask';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '@react-native-vector-icons/ionicons';
 import { gStyle } from "../styles/style";
 
 
@@ -11,7 +11,7 @@ export default function AddTaskModal({ visible, onClose, onAdd }) {
   return (
     <Modal visible={visible} animationType="slide" transparent={false}>
       <ScrollView style={gStyle.main}>
-        <Ionicons
+        <Icon
           name="close-circle"
           size={34}
           color="red"
