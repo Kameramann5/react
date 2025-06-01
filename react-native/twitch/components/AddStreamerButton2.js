@@ -1,7 +1,7 @@
 // AddStreamerButton.js
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Icon from '@react-native-vector-icons/ionicons';
 
 
 
@@ -14,9 +14,9 @@ const AddStreamerButton = ({ isAdded, onAdd }) => {
       disabled={isAdded}
     >
       {isAdded ? (
-        <Ionicons name="heart" size={20} color="gray" />
+        <Icon name="heart" size={20} color="gray" />
             ) : (
-                <Ionicons name="heart" size={20} color="white" />
+                <Icon name="heart" size={20} color="white" />
             )}
     </TouchableOpacity>
   );

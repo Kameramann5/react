@@ -7,16 +7,17 @@ import {
   StyleSheet,
   TouchableOpacity,
   Linking,
+  ActivityIndicator 
 } from "react-native";
 import api from "../api"; // предположим, что это axios или подобный api
 import { useNavigation } from '@react-navigation/native';
 import { gStyle } from '../styles/style';
 import AddStreamerButton from './AddStreamerButton2'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Icon from '@react-native-vector-icons/ionicons';
 
 function Stream() {
-  
+  const [loading, setLoading] = useState(true); 
   const [channels, setChannels] = useState([]);
   const [languageFilter, setLanguageFilter] = useState('all');
   const [streamersCount, setStreamersCount] = useState(0);
@@ -130,6 +131,8 @@ function Stream() {
         setChannels(filteredStreams);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); // загрузка закончена
       }
     };
 
@@ -143,6 +146,13 @@ function Stream() {
   return (
     <ScrollView style={gStyle.container}>
       <Text style={gStyle.header}>Топ стримеров </Text>
+      {loading ? (
+        <View style={{ padding: 20, alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#8c3fff" />
+        <Text>Топ ещё загружается...</Text>
+        </View>
+        ) : (  
+          <>
       <View style={styles.languageButtonsContainer}>
         {languages.map((lang) => (
           <TouchableOpacity
@@ -178,7 +188,7 @@ function Stream() {
 
             <View   style={styles.viewContainer}>
             <View    style={styles.viewContainerInner} >  
-      <Ionicons name="eye" size={15} color="gray" /> 
+      <Icon name="eye" size={15} color="gray" /> 
        <Text style={styles.viewContainerInnerText}>{channel.viewer_count}</Text>
       </View>
             {/* <TouchableOpacity
@@ -206,6 +216,10 @@ function Stream() {
           </View>
         </View>
       ))}
+
+
+      </>
+      )}
     </ScrollView>
   );
 }

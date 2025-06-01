@@ -12,8 +12,10 @@ import {
   Alert,
 } from "react-native";
 import api from "../api";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import Octicons from "@expo/vector-icons/Octicons";
+
+import Icon from '@react-native-vector-icons/ionicons';
+
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddStreamerButton from './AddStreamerButton'; 
 import { gStyle } from '../styles/style';
@@ -99,7 +101,7 @@ const StreamerSearch = ({ route, navigation }) => {
 
   const handleSearch = async () => {
     if (!streamerName.trim()) {
-      setError("Пожалуйста, введите имя стримера");
+      setError("Пожалуйста, введите точное название стримера");
       setStreamerData(null);
       return;
     }
@@ -187,10 +189,10 @@ const StreamerSearch = ({ route, navigation }) => {
           <View style={styles.centeredRow}>
             <Text>Статус:</Text>
             {streamerData.streamInfo ? (
-              <Octicons name="broadcast" size={24} color="green" />
+              <Icon  name="videocam" size={24} color="green" />
             ) : (
-              <MaterialCommunityIcons
-                name="broadcast-off"
+              <Icon    
+                name="videocam-off"
                 size={24}
                 color="red"
               />

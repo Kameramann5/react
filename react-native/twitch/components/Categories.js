@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // для навигации
-import api from '../api'; // убедитесь, что api настроен для fetch или axios
+import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import api from '../api';
 import Header from './Header';
 import { gStyle } from '../styles/style';
 
-
 const Games = () => {
   const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await api.get('https://api.twitch.tv/helix/games/top?&first=100');
-        // result.data.data предполагается структура, как в вебе
         const dataArray = result.data.data;
         const finalArray = dataArray.map(game => {
           const newURL = game.box_art_url
@@ -25,6 +24,8 @@ const Games = () => {
         setGames(finalArray);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); // загрузка закончена
       }
     };
     fetchData();
@@ -35,7 +36,6 @@ const Games = () => {
       <View style={styles.card}>
         <Image source={{ uri: item.box_art_url }} style={styles.image} />
         <View style={styles.cardBody}>
-        
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
@@ -45,7 +45,7 @@ const Games = () => {
               })
             }
           >
-            <Text style={styles.buttonText}>{item.name} </Text>
+            <Text style={styles.buttonText}>{item.name}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -54,24 +54,30 @@ const Games = () => {
 
   return (
     <ScrollView style={gStyle.container}>
-   
       <Text style={gStyle.header}>Самые популярные категории</Text>
-      <FlatList
-       nestedScrollEnabled={true}
-  scrollEnabled={false}
-        data={games}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        numColumns={2} // можно настроить в зависимости от дизайна
-        contentContainerStyle={styles.list}
-      />
+      
+      {loading ? (
+       
+        <View style={{ padding: 20, alignItems: 'center' }}>
+          <ActivityIndicator size="large" color="#8c3fff" />
+          <Text>Категории ещё загружаются...</Text>
+        </View>
+      ) : (
+        <FlatList
+          nestedScrollEnabled={true}
+          scrollEnabled={false}
+          data={games}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          contentContainerStyle={styles.list}
+        />
+      )}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-
-
   list: {
     paddingBottom: 20,
   },
@@ -91,10 +97,6 @@ const styles = StyleSheet.create({
   },
   cardBody: {
     padding: 10,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   button: {
     marginTop: 10,

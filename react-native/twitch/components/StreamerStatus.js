@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import api from '../api'; // ваш api с настроенными headers для Twitch
-import { Ionicons } from '@expo/vector-icons'
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import Octicons from "@expo/vector-icons/Octicons";
+
 
 const StreamerStatus = ({ userName }) => {
   const [isStreaming, setIsStreaming] = useState(false);
@@ -25,7 +23,13 @@ const StreamerStatus = ({ userName }) => {
         // Проверяем, стримит ли пользователь
         const streamResponse = await api.get(
           `https://api.twitch.tv/helix/streams?user_login=${userName}`
-        );
+        ); 
+        
+        
+
+
+
+
         const streamData = streamResponse.data.data;
         setIsStreaming(streamData.length > 0);
       } catch (error) {

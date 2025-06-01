@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Icon from '@react-native-vector-icons/ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddStreamerButton from './AddStreamerButton2'; 
 
@@ -74,7 +74,7 @@ const StreamCard = ({ item, onPressStreamer }) => {
   onAdd={() => handleAddStreamer(item.user_login)}
 /> 
    <View    style={styles.viewContainerInner} >  
-      <Ionicons name="eye" size={15} color="gray" /> 
+      <Icon name="eye" size={15} color="gray" /> 
        <Text style={styles.viewContainerInnerText}>{item.viewer_count}</Text>
       </View>
      </View>
