@@ -41,6 +41,7 @@ export default function FullTask({ route, navigation }) {
       <View style={gStyle.main}>
         {route.params.img ? (
           <>
+          <View style={styles.imageFull} > 
             <TouchableOpacity onPress={openImageModal}>
               <Image style={styles.image} source={{ uri: route.params.img }} />
             </TouchableOpacity>
@@ -60,9 +61,12 @@ export default function FullTask({ route, navigation }) {
   renderIndicator={() => null}
 />
             </Modal>
+            </View>
           </>
         ) : (
+          <View style={styles.imageNo} > 
           <Icon name="image-sharp" size={24} color="gray" />
+          </View>
         )}
         <Text style={[gStyle.title, styles.header]}>{route.params.name}</Text>
         <Text style={styles.full}>{route.params.full}</Text>
@@ -95,6 +99,16 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: "100%",
+    paddingTop:10,
+    borderRadius:10
+  },
+  imageNo: {
+   paddingTop:10,
+   borderRadius:100
+  
+  },
+  imageFull: {
+    paddingTop:10,
   },
   page: {
     paddingBottom: 20,

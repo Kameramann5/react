@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 0,
     color: "black",
+    paddingHorizontal:10
   },
   minimalizmtitle: {
     fontFamily: "mt-bold",
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
   },
   anons: {
     fontFamily: "mt-light",
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "center",
     marginTop: 0,
     color: "gray",

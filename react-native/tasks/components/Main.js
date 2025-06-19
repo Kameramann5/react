@@ -11,6 +11,8 @@ import { gStyle } from "../styles/style";
 import { useNavigation } from "@react-navigation/native";
 import Icon from '@react-native-vector-icons/ionicons';
 import { SwitchContext } from './Settings/SwitchContext';
+import { TasksContext } from '../Context/TasksContext';
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -21,8 +23,10 @@ import Tasks from './Tasks'; // Импорт компонента списка
 
 export default function Main() {
   const { Minimalizm } = useContext(SwitchContext);
+  const { news, setNews, deleteAllTasks } = useContext(TasksContext);
+
   const navigation = useNavigation();
-  const [news, setNews] = useState([]);
+
   const [modalWindow, setModalWindow] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -109,13 +113,20 @@ export default function Main() {
     });
   };
 
+
+
+
+
+
+
+
   return (
     <SafeAreaView style={gStyle.main}>
       <View   style={styles.containerStyle }>
       <Text style={gStyle.header}>
   Список дел ({news.length})
   {searchTerm.length > 0 && (
-    ` (${foundCount > 0 ? foundCount : 'пусто'})`
+    ` (${foundCount > 0 ? foundCount : '0'})`
   )}
 </Text>
    
