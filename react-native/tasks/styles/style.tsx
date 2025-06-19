@@ -4,7 +4,6 @@ export const gStyle =StyleSheet.create({
     main: {
         flex:1,
         paddingHorizontal:20,
-        paddingTop:10,
         paddingBottom:5
     },
     title: {
@@ -12,8 +11,17 @@ export const gStyle =StyleSheet.create({
         color:'#333',
         fontFamily:'mt-bold',
         textAlign:'center',
+    },
+    header: {
+        fontSize:20,
+        color:'#333',
+        fontFamily:'mt-bold',
+        textAlign:'center',
+        fontWeight:'bold',
+        marginTop:20,
+        marginBottom:20, flex: 1, 
+      
     }
-
 })
 
 

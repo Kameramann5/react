@@ -80,6 +80,7 @@ const validationSchema = Yup.object().shape({
   return (
     <Formik
       initialValues={{
+        color: article.color,
         name: article.name,
         full: article.full,
         anons: article.anons,
@@ -156,7 +157,7 @@ const validationSchema = Yup.object().shape({
             )}
 
             <TextInput
-             maxLength={100}
+             maxLength={200}
               style={styles.textarea}
               placeholder="Краткое описание"
               onChangeText={handleChange('anons')}
@@ -165,14 +166,19 @@ const validationSchema = Yup.object().shape({
               multiline
             />
             <TextInput
-              maxLength={300}
-              style={styles.textarea}
+              maxLength={500}
+              style={styles.textareaFull}
               placeholder="Полное описание"
               onChangeText={handleChange('full')}
               onBlur={handleBlur('full')}
               value={values.full}
               multiline
             />
+
+
+
+
+
 
             {/* Фото */}
             <TouchableOpacity
@@ -202,10 +208,10 @@ const validationSchema = Yup.object().shape({
                     ]}
                   />
                   <TextInput
-                   maxLength={50}
+                   maxLength={100}
                     style={[
                       styles.checkboxInput,
-                      { borderColor: cb.checked ? 'blue' : 'silver' }
+                      { borderColor: cb.checked ? 'blue' : 'silver',color: cb.checked ? '#007BFF' : 'black',textDecorationLine: cb.checked ? 'line-through' : 'normal' }
                     ]}
                     placeholder="Введите название"
                     value={cb.label}
@@ -226,15 +232,11 @@ const validationSchema = Yup.object().shape({
                 <Text style={styles.addButtonText}>＋</Text>
               </TouchableOpacity>
             </View>
-
-            <Button
-              title="Сохранить"
-              onPress={() => {
-                handleSubmit();
-                // дополнительно можно установить флаг успеха, если нужно
-              }}
-              color={editSuccess ? 'green' : '#2196F3'}
-            />
+          
+            <TouchableOpacity onPress={handleSubmit} >
+                <Text  style={styles.submitButtonText}>Сохранить</Text>
+              </TouchableOpacity>
+        
           </View>
         );
       }}
@@ -243,6 +245,23 @@ const validationSchema = Yup.object().shape({
 }
 
 const styles = StyleSheet.create({
+  submitButtonText: {   borderRadius:100,
+    backgroundColor: '#007BFF',
+    textAlign: 'center',
+    padding: 10,
+    color: 'white',
+    fontWeight: 'bold',
+    marginBottom:20
+  },
+  textareaFull: {
+    height: 200,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    marginVertical:5,
+    textAlignVertical: 'top',
+  },
   textarea: {
     height: 100,
     borderWidth: 1,

@@ -52,16 +52,17 @@ export default function DeleteCurrentPost({  deleteArticle }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 0,
     alignItems: 'center',
   },
   deleteButton: {
-    flexDirection: 'row',
+    flexDirection: 'row', borderRadius:100,
     alignItems: 'center',
     backgroundColor: '#ff5c5c',
-    padding: 10,
     gap: 5,
     justifyContent: 'center',
+    paddingHorizontal:15,
+    paddingVertical:10
   },
   text: {
     fontSize: 16,

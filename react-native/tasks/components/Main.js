@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext   } from "react";
 import {
   Modal,
   StyleSheet,
@@ -10,7 +10,7 @@ import {
 import { gStyle } from "../styles/style";
 import { useNavigation } from "@react-navigation/native";
 import Icon from '@react-native-vector-icons/ionicons';
-
+import { SwitchContext } from './Settings/SwitchContext';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -20,14 +20,28 @@ import Pagination from "./Pagination";
 import Tasks from './Tasks'; // Импорт компонента списка
 
 export default function Main() {
+  const { Minimalizm } = useContext(SwitchContext);
   const navigation = useNavigation();
   const [news, setNews] = useState([]);
   const [modalWindow, setModalWindow] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [foundCount, setFoundCount] = useState(0);
+
+
+
+  let itemsPerPage;
+  if (Minimalizm) {
+    itemsPerPage = 10;
+  } else {
+    itemsPerPage = 30;
+  }
+
+
+
   const [isAddModalVisible, setAddModalVisible] = useState(false);
 
+  
   // Загрузка данных из AsyncStorage
   useEffect(() => {
     const loadData = async () => {
@@ -97,7 +111,37 @@ export default function Main() {
 
   return (
     <SafeAreaView style={gStyle.main}>
-      <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
+      <View   style={styles.containerStyle }>
+      <Text style={gStyle.header}>
+  Список дел ({news.length})
+  {searchTerm.length > 0 && (
+    ` (${foundCount > 0 ? foundCount : 'пусто'})`
+  )}
+</Text>
+   
+     
+    <TouchableOpacity
+       onPress={() => navigation.navigate('Settings')}
+        activeOpacity={0.7}
+      >
+        <Icon
+        name="settings-outline"
+          size={20}
+          color="#007BFF"
+          style={styles.IoniconsAdd}
+        />
+          
+      </TouchableOpacity>
+</View>
+       <SearchBar
+        value={searchTerm}
+        onChangeText={setSearchTerm}
+        data={sortedNews}
+        onCountChange={(count) => setFoundCount(count)}
+      />
+      
+   
+
       <AddTaskModal
         visible={isAddModalVisible}
         onClose={() => setAddModalVisible(false)}
@@ -108,30 +152,29 @@ export default function Main() {
         onPress={() => setAddModalVisible(true)}
         activeOpacity={0.7}
       >
-        <Text style={[gStyle.title, styles.header]}>Список задач ({news.length})</Text>
+      
         <Icon
         name="add-circle"
           size={40}
-          color="blue"
+          color="#007BFF"
           style={styles.IoniconsAdd}
         />
+          <Text style={[gStyle.title, styles.header]}>Создать задачу</Text>
       </TouchableOpacity>
 
       {filteredNews.length === 0 ? (
         <Text style={styles.emptyText}>Задач не создано</Text>
       ) : (
-        <View style={{ flex: 1 }}>
+        
+        <View style={{ flex: 1,}}>
           <Tasks data={currentItems} onItemPress={handleItemPress} deleteArticle={deleteArticle} />
         </View>
+      
       )}
 
-      {filteredNews.length > 10 && (
-        <View style={styles.paginationContainer}>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
+      {filteredNews.length > itemsPerPage && (
+        <View >
+          
         </View>
       )}
     </SafeAreaView>
@@ -139,7 +182,9 @@ export default function Main() {
 }
 
 const styles = StyleSheet.create({
-  // ваши стили
+  containerStyle: {
+    flexDirection: 'row', alignItems: 'center'
+  },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -150,19 +195,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
   },
-  header: {
-    // добавьте нужные стили
-  },
-  IoniconsAdd: {
-    // нужные стили
-  },
+
   emptyText: {
     textAlign: "center",
     fontSize: 20,
     color: "gray",
     marginTop: 50,
   },
-  paginationContainer: {
-    // стили для пагинации
-  },
+
 });
