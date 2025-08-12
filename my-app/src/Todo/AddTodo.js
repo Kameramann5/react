@@ -21,17 +21,17 @@ function AddTodo({ onCreate }) {
   return (
     <form style={{ marginBottom: "1rem" }} onSubmit={submitHandler}>
       <div className="input-group mb-3">
+      
+        <input placeholder="Название" {...inputTitle.bind} className="form-control" />
+ 
+        <input placeholder="Описание" {...inputDescription.bind} className="form-control" />
         <button
-          className="btn btn-success"
+          className="btn btn-primary"
           type="submit"
           id="button-addon1"
         >
           Добавить задачу
         </button>
-        <input placeholder="Название" {...inputTitle.bind} className="form-control" />
- 
-        <input placeholder="Описание" {...inputDescription.bind} className="form-control" />
-        
       </div>
     </form>
   );

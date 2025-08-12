@@ -25,8 +25,12 @@ transition: 0.5s;
   --white: white;
   --bgmodal: #202124;
 }
-.Todoli span {   flex: 1; margin-left: 10px;}
-.wrapper0 {     min-height: 1000px; transition:  0.5s;   background: var(--background);  }
+.Todoli span {      justify-content: flex-start;align-items: center;  margin-left: 10px;display: flex;    width: 100%;}
+.Todoli p { margin: 0;}
+.Todoli input[type='checkbox'] { margin-left: 5px;}
+
+
+.wrapper0 {      flex-direction: column; transition:  0.5s;   background: var(--background);  display: flex;     height: 100vh;}
 .wrapperbtn {
   color: var(--text-primary);
   background-color: var(--background);
@@ -57,7 +61,7 @@ span {  color: var(--white);  }
 .rm:hover { background: gray; }
 .done {
 
-  background-color: #737373; transition: 0.5s;}
+  background-color: #19875494; transition: 0.5s;}
   .done_p {text-decoration: line-through;}
  .Todoli {transition: 0.5s;}
  .Todoli  p {     display: inline-block;}
@@ -78,7 +82,7 @@ span {  color: var(--white);  }
 .lds-ripple div:nth-child(2) {
   animation-delay: -0.5s;
 }
-
+.form-label p {font-weight: bold; }
 
 
 

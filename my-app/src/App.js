@@ -137,7 +137,7 @@ function App() {
             </label>
           </div>
 
-          <Modal />
+       
 
           <h1>react список задач</h1>
           <p>

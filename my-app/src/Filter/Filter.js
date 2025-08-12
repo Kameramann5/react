@@ -53,7 +53,7 @@ function TodoFilter({
           onChange={() => onFilterChange("COMPLETED")}
         />
         <label className="form-check-label" htmlFor="flexSwitchCheckDisabled">
-        Закрытые{" "}
+        Выполненные{" "}
         </label>
       </div>
       </div> 
